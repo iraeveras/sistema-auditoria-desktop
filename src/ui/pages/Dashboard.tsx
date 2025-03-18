@@ -17,10 +17,10 @@ const Dashboard: React.FC = () => {
         <div className="flex flex-col min-h-screen">
             <header className="p-4 bg-gray-800 text-white">Dashboard</header>
             <main className="flex-1 p-4">
-                <h1>Bem-vindo, {userName}</h1>
+                
             </main>
-            <footer>
-                Usuário: {userName}
+            <footer className="p-4 bg-gray-800 text-neutral-500">
+                <span className="text-neutral-400">Usuário :</span> {userName}
             </footer>
         </div>
     )
