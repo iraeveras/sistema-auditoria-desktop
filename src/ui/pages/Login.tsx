@@ -29,15 +29,15 @@ const Login: React.FC = () => {
         }
     }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div className="min-h-screen flex items-center justify-center bg-transparent">
+            <form onSubmit={handleLogin} className="bg-transparent p-8 rounded w-full max-w-sm">
+                <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Login</h2>
                 <input
                     type='text'
                     placeholder='Nome de usuário'
                     value={username}
                     onChange={(e) => setUserName(e.target.value)}
-                    className='w-full border p-2 mb-4'
+                    className='w-full border p-2 mb-4 outline-blue-500 border-blue-400'
                 />
 
                 <input 
@@ -45,12 +45,12 @@ const Login: React.FC = () => {
                     placeholder='Senha'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className='w-full border p-2 mb-4'
+                    className='w-full border p-2 mb-4 outline-blue-500 border-blue-400'
                 />
 
                 {erro && <p className="text-red-500 mb-4">{erro}</p>}
 
-                <button type="submit" className="w-full bg-blue-500 text-white p-2">
+                <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer text-white p-2">
                     Entrar
                 </button>
             </form>
