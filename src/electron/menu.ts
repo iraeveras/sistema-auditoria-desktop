@@ -1,89 +1,85 @@
 // File: src/electron/menu.ts
-import { BrowserWindow, Menu, app } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-export const createMenu = () => {
-    const template: Electron.MenuItemConstructorOptions[] = [
+// Definindo __filename e __dirname para ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/**
+ * Função auxiliar para criar uma nova janela (child window) que carrega uma rota específica.
+ * Essa janela ocultará o menu (autoHideMenuBar: true) para que o menu global apareça somente na janela principal.
+ * @param route Rota da aplicação React (ex: '/cadastros/categoria')
+ * @param title Título da nova janela
+ */
+export function createChildWindow(route: string, title: string) {
+    const childWindow = new BrowserWindow({
+        width: 1024,
+        height: 768,
+        title,
+        autoHideMenuBar: true, // Oculta o menu nessa janela
+        webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        contextIsolation: true,
+        nodeIntegration: false,
+        },
+    });
+    
+    // Em desenvolvimento, a URL é a do Vite; em produção, utilize loadFile conforme necessário.
+    childWindow.loadURL(`http://localhost:5123${route}`);
+    }
+
+    /**
+     * Cria o menu da aplicação. Esse menu será exibido apenas na janela principal,
+     * pois nas janelas filhas (child windows) estamos utilizando autoHideMenuBar.
+     */
+    export const createMenu = () => {
+    const template = [
         {
-            label: 'Arquivo',
-            submenu: [
-                {
-                    label: 'Nova Janela',
-                    accelerator: 'CmdOrCtrl+N',
-                    click: () => {
-                        const newWindow = new BrowserWindow({
-                            width: 600,
-                            height: 600,
-                            webPreferences: {
-                                contextIsolation: true,
-                                nodeIntegration: false,
-                            },
-                        });
-                        newWindow.loadURL('http://localhost:5123/dashboard');
-                    },
-                },
-                {
-                    label: 'Abrir...',
-                    accelerator: 'CmdOrCtrl+O',
-                    click: () => {
-                        console.log('Abrir arquivo...');
-                    },
-                },
-                { type: 'separator'},
-                {
-                    label: 'Sair',
-                    accelerator: 'CmdOrCtrl+Q',
-                    role: 'quit',
-                },
-            ],
+        label: 'Arquivo',
+        submenu: [
+            { 
+            label: 'Sair', 
+            accelerator: 'CmdOrCtrl+Q', 
+            click: () => app.quit() 
+            }
+        ],
         },
         {
-            label: 'Editar',
-            submenu: [
-                { role: 'undo', label: 'Desfazer' },
-                { role: 'redo', label: 'Refazer' },
-                { type: 'separator' },
-                { role: 'cut', label: 'Recortar' },
-                { role: 'copy', label: 'Copiar' },
-                { role: 'paste', label: 'Colar' },
-                { role: 'delete', label: 'Excluir' },
-                { role: 'selectAll', label: 'Selecionar Tudo' },
-            ],
+        label: 'Cadastros',
+        submenu: [
+            { label: 'Categoria', click: () => createChildWindow('/cadastros/categoria', 'Cadastro de Categoria') },
+            { label: 'Forma de Pagamento', click: () => createChildWindow('/cadastros/forma-pagamento', 'Cadastro de Forma de Pagamento') },
+            { label: 'Motivo de Pausa', click: () => createChildWindow('/cadastros/motivo-pausa', 'Cadastro de Motivo de Pausa') },
+            { label: 'Loja', click: () => createChildWindow('/cadastros/loja', 'Cadastro de Loja') },
+            { label: 'Avaliação Operacional', click: () => createChildWindow('/cadastros/avaliacao-operacional', 'Avaliação Operacional') },
+            { label: 'Questões', click: () => createChildWindow('/cadastros/questoes', 'Cadastro de Questões') },
+            { label: 'Motivo de Perdas', click: () => createChildWindow('/cadastros/motivo-perdas', 'Cadastro de Motivo de Perdas') },
+            { label: 'Gênero', click: () => createChildWindow('/cadastros/genero', 'Cadastro de Gênero') },
+            { label: 'Usuário', click: () => createChildWindow('/cadastros/usuario', 'Cadastro de Usuário') },
+        ],
         },
         {
-            label: 'Exibir',
-            submenu: [
-                { role: 'reload', label: 'Recarregar' },
-                { role: 'forceReload', label: 'Forçar Recarregar' },
-                { role: 'toggleDevTools', label: 'Toggle DevTools' },
-                { type: 'separator' },
-                { role: 'resetZoom', label: 'Resetar Zoom' },
-                { role: 'zoomIn', label: 'Ampliar Zoom' },
-                { role: 'zoomOut', label: 'Diminuir Zoom' },
-                { type: 'separator' },
-                { role: 'togglefullscreen', label: 'Tela Cheia' },
-            ],
+        label: 'Relatórios',
+        submenu: [
+            { label: 'Gerar Relatórios', click: () => createChildWindow('/relatorios', 'Relatórios') },
+        ],
         },
         {
-            label: 'Janela',
-            submenu: [
-                { role: 'minimize', label: 'Minimizar' },
-                { role: 'close', label: 'Fechar Janela' },
-                ],
-            },
-            {
-                label: 'Ajuda',
-                submenu: [
-                {
-                    label: 'Sobre',
-                    click: () => {
-                    // Você pode abrir uma janela de "Sobre" ou redirecionar para uma URL
-                    console.log('Exibindo informações sobre o aplicativo...');
-                    },
-                },
-            ],
+        label: 'Auditoria',
+        submenu: [
+            { label: 'Agendamento de Auditoria', click: () => createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria') },
+        ],
+        },
+        {
+        label: 'Ajuda',
+        submenu: [
+            { label: 'Sobre', click: () => createChildWindow('/sobre', 'Sobre o Sistema') },
+        ],
         },
     ];
 
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
-}
+};

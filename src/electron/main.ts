@@ -17,7 +17,10 @@ let loggedUser: { name: string; token: string } | null = null;
 function createLoginWindow() {
     loginWindow = new BrowserWindow({
         width: 400,
-        height: 600,
+        height: 400,
+        resizable: false,
+        title: 'Login',
+        autoHideMenuBar: true,
         webPreferences: {
             preload: preloadPath,
             contextIsolation: true,
@@ -26,7 +29,7 @@ function createLoginWindow() {
 
     loginWindow.removeMenu();
 
-    loginWindow.loadURL('http://localhost:5123');
+    loginWindow.loadURL('http://localhost:5123/login');
 }
 
 function createMainWindow() {
@@ -56,7 +59,7 @@ ipcMain.handle('get-user', async () => {
 
 app.whenReady().then(() => {
     createLoginWindow();
-    createMenu();
+    
 
     ipcMain.on('login-success', (event, user) => {
         loggedUser = user;
@@ -65,6 +68,7 @@ app.whenReady().then(() => {
             loginWindow = null;
         }
         createMainWindow();
+        createMenu();
     });
 
     app.on('activate', function () {
