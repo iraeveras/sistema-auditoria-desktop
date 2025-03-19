@@ -1,9 +1,9 @@
 // File: src/electron/main.ts
-import {app, BrowserWindow, screen, ipcMain} from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import { isDev } from './util.js';
 import { fileURLToPath } from 'url';
-import { createMenu } from './menu.js';
+import { createMenu, setParentWindow } from './menu.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,7 +46,9 @@ function createMainWindow() {
 
     mainWindow.maximize();
     mainWindow.loadURL('http://localhost:5123/dashboard');
-    mainWindow.webContents.openDevTools();
+
+    setParentWindow(mainWindow);
+    // mainWindow.webContents.openDevTools();
 
     // if (isDev()) {
     //     mainWindow.loadURL('http://localhost:5123/dashboard');
@@ -61,7 +63,7 @@ ipcMain.handle('get-user', async () => {
 
 app.whenReady().then(() => {
     createLoginWindow();
-    
+
 
     ipcMain.on('login-success', (event, user) => {
         loggedUser = user;
