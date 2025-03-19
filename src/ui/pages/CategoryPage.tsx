@@ -1,5 +1,5 @@
 // File: src/ui/pages/CategoryPage.tsx
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axiosInstance from "../../services/axiosInstance";
 
 const API_BASE_URL = 'https://back-auditoria.onrender.com';
@@ -41,7 +41,7 @@ const Category: React.FC = () => {
         e.preventDefault();
         if (!newCategoryName.trim()) return;
         try {
-            const response = await axiosInstance.post(`${API_BASE_URL}/categorias`, {name: newCategoryName});
+            const response = await axiosInstance.post(`${API_BASE_URL}/categorias`, { name: newCategoryName });
             setCategories([...categories, response.data]);
             setNewCategoryName('');
             setError('');
@@ -59,7 +59,7 @@ const Category: React.FC = () => {
         e.preventDefault();
         if (!editingCategory || !editingCategory.name.trim()) return;
         try {
-            const response = await axiosInstance.put(`${API_BASE_URL}/categorias/${editingCategory.id}`, {name: editingCategory.name});
+            const response = await axiosInstance.put(`${API_BASE_URL}/categorias/${editingCategory.id}`, { name: editingCategory.name });
             setCategories(categories.map(cat => (cat.id === editingCategory.id ? response.data : cat)));
             setEditingCategory(null);
             setError('');
@@ -93,7 +93,7 @@ const Category: React.FC = () => {
                     value={editingCategory ? editingCategory.name : newCategoryName}
                     onChange={(e) => {
                         if (editingCategory) {
-                            setEditingCategory({...editingCategory, name: e.target.value});
+                            setEditingCategory({ ...editingCategory, name: e.target.value });
                         } else {
                             setNewCategoryName(e.target.value);
                         }
@@ -136,7 +136,7 @@ const Category: React.FC = () => {
                                 >
                                     Editar
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => handleDeleteCategory(cat.id)}
                                     className="bg-red-500 text-white px-2 py-1"
                                 >
