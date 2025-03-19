@@ -7,14 +7,10 @@ const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user.token) {
-            config.headers.Authorization = `Bearer ${user.token}`;
-            console.log('Token adicionado:', config.headers.Authorization);
-        }
+axiosInstance.interceptors.request.use(async (config) => {
+    const loggedUser = await window.electronAPI.getUser();
+    if (loggedUser && loggedUser.token) {
+        config.headers.Authorization = `Bearer ${loggedUser.token}`;
     }
     return config;
 }, (error) => {
