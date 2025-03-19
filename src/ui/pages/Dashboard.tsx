@@ -10,17 +10,18 @@ const Dashboard: React.FC = () => {
             if (user) {
                 setUserName(user.name);
             }
-        })();        
+        })();
     }, [])
 
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="p-4 bg-gray-800 text-white">Dashboard</header>
+            <header className="py-3 p-4 bg-gray-800 text-white">Dashboard</header>
             <main className="flex-1 p-4">
-                
+
             </main>
-            <footer className="p-4 bg-gray-800 text-neutral-500">
-                <span className="text-neutral-400">Usuário :</span> {userName}
+            <footer className="py-1 px-4 bg-gray-800 text-neutral-500">
+                <label className="text-neutral-400 text-sm">usuário :</label>
+                <span className="text-sm"> {userName}</span>
             </footer>
         </div>
     )
