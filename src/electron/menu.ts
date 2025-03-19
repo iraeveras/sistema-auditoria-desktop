@@ -15,19 +15,21 @@ const __dirname = path.dirname(__filename);
  */
 export function createChildWindow(route: string, title: string) {
     const childWindow = new BrowserWindow({
-        width: 1024,
-        height: 768,
+        width: 800,
+        height: 600,
         title,
         autoHideMenuBar: true, // Oculta o menu nessa janela
         webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         contextIsolation: true,
         nodeIntegration: false,
+        devTools: true,
         },
     });
     
     // Em desenvolvimento, a URL é a do Vite; em produção, utilize loadFile conforme necessário.
     childWindow.loadURL(`http://localhost:5123${route}`);
+    childWindow.webContents.openDevTools();
     }
 
     /**
@@ -37,14 +39,14 @@ export function createChildWindow(route: string, title: string) {
     export const createMenu = () => {
     const template = [
         {
-        label: 'Arquivo',
-        submenu: [
-            { 
-            label: 'Sair', 
-            accelerator: 'CmdOrCtrl+Q', 
-            click: () => app.quit() 
-            }
-        ],
+            label: 'Arquivo',
+            submenu: [
+                { 
+                label: 'Sair', 
+                accelerator: 'CmdOrCtrl+Q', 
+                click: () => app.quit() 
+                }
+            ],
         },
         {
         label: 'Cadastros',
@@ -61,22 +63,22 @@ export function createChildWindow(route: string, title: string) {
         ],
         },
         {
-        label: 'Relatórios',
-        submenu: [
-            { label: 'Gerar Relatórios', click: () => createChildWindow('/relatorios', 'Relatórios') },
-        ],
+            label: 'Relatórios',
+            submenu: [
+                { label: 'Gerar Relatórios', click: () => createChildWindow('/relatorios', 'Relatórios') },
+            ],
         },
         {
-        label: 'Auditoria',
-        submenu: [
-            { label: 'Agendamento de Auditoria', click: () => createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria') },
-        ],
+            label: 'Auditoria',
+            submenu: [
+                { label: 'Agendamento de Auditoria', click: () => createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria') },
+            ],
         },
         {
-        label: 'Ajuda',
-        submenu: [
-            { label: 'Sobre', click: () => createChildWindow('/sobre', 'Sobre o Sistema') },
-        ],
+            label: 'Ajuda',
+            submenu: [
+                { label: 'Sobre', click: () => createChildWindow('/sobre', 'Sobre o Sistema') },
+            ],
         },
     ];
 

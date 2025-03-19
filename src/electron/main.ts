@@ -40,11 +40,13 @@ function createMainWindow() {
             preload: preloadPath,
             contextIsolation: true,
             nodeIntegration: false,
+            devTools: true
         },
     });
 
     mainWindow.maximize();
     mainWindow.loadURL('http://localhost:5123/dashboard');
+    mainWindow.webContents.openDevTools();
 
     // if (isDev()) {
     //     mainWindow.loadURL('http://localhost:5123/dashboard');
