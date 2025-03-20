@@ -1,5 +1,6 @@
 // File: src/ui/pages/CategoryPage.tsx
 import React, { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet';
 import axiosInstance from "../../services/axiosInstance";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -60,6 +61,10 @@ const Category: React.FC = () => {
     const handleUpdateCategory = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingCategory || !editingCategory.name.trim()) return;
+
+        const confirm = window.confirm('Deseja realmente editar esta categoria?');
+        if (!confirm) return;
+
         try {
             const response = await axiosInstance.put(`${API_BASE_URL}/categorias/${editingCategory.id}`, { name: editingCategory.name });
             setCategories(categories.map(cat => (cat.id === editingCategory.id ? response.data : cat)));
@@ -74,7 +79,7 @@ const Category: React.FC = () => {
     const handleDeleteCategory = async (id: number) => {
         const confirm = window.confirm('Deseja realmente excluir esta categoria?');
         if (!confirm) return;
-        
+
         try {
             await axiosInstance.delete(`${API_BASE_URL}/categorias/${id}`);
             setCategories(categories.filter(cat => cat.id !== id));
@@ -87,11 +92,14 @@ const Category: React.FC = () => {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Cadastro de Categoria</h1>
+            <Helmet>
+                <title>Categoria</title>
+            </Helmet>
+
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form
                 onSubmit={editingCategory ? handleUpdateCategory : handleCreateCategory}
-                className="mb-4 gap-2 flex items-center justify-between"
+                className="flex items-center justify-between border-b border-b-neutral-400 mb-4 pb-4 gap-2"
             >
                 <input
                     type="text"
@@ -107,14 +115,14 @@ const Category: React.FC = () => {
                     className="w-full p-1 border border-neutral-400 outline-none text-sm"
                 />
 
-                <button className="border border-blue-500 text-white text-sm p-1 cursor-pointer bg-blue-400 hover:bg-blue-500 ">
+                <button className="border border-blue-500 text-white text-sm p-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
                     {editingCategory ? 'Atualizar' : 'Cadastrar'}
                 </button>
                 {editingCategory && (
                     <button
                         type="button"
                         onClick={() => setEditingCategory(null)}
-                        className="bg-gray-500 text-white px-4 py-2 ml-2"
+                        className="border border-gray-500 text-white text-sm p-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
                     >
                         Cancelar
                     </button>
@@ -124,8 +132,8 @@ const Category: React.FC = () => {
             <table className="min-w-full bg-white border border-neutral-400">
                 <thead>
                     <tr className="border border-neutral-400">
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Id</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Nome</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">#</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Categoria</th>
                         <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Ações</th>
                     </tr>
                 </thead>
@@ -139,13 +147,13 @@ const Category: React.FC = () => {
                                     onClick={() => handleEditCategory(cat)}
                                     className="flex-1  text-white text-sm px-2 cursor-pointer mr-1"
                                 >
-                                    <FiEdit className="text-blue-400"/>
+                                    <FiEdit className="text-blue-400" />
                                 </button>
                                 <button
                                     onClick={() => handleDeleteCategory(cat.id)}
                                     className="flex-1  text-white text-sm px-2 cursor-pointer"
                                 >
-                                    <FaRegTrashAlt className="text-red-500"/>
+                                    <FaRegTrashAlt className="text-red-500" />
                                 </button>
                             </td>
                         </tr>
