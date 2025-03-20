@@ -1,6 +1,8 @@
 // File: src/ui/pages/CategoryPage.tsx
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../services/axiosInstance";
+import { FiEdit } from "react-icons/fi";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const API_BASE_URL = 'https://back-auditoria.onrender.com';
 
@@ -70,6 +72,9 @@ const Category: React.FC = () => {
     };
 
     const handleDeleteCategory = async (id: number) => {
+        const confirm = window.confirm('Deseja realmente excluir esta categoria?');
+        if (!confirm) return;
+        
         try {
             await axiosInstance.delete(`${API_BASE_URL}/categorias/${id}`);
             setCategories(categories.filter(cat => cat.id !== id));
@@ -86,7 +91,7 @@ const Category: React.FC = () => {
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form
                 onSubmit={editingCategory ? handleUpdateCategory : handleCreateCategory}
-                className="mb-4 flex items-center"
+                className="mb-4 gap-2 flex items-center justify-between"
             >
                 <input
                     type="text"
@@ -99,10 +104,10 @@ const Category: React.FC = () => {
                         }
                     }}
                     placeholder="Nome da categoria"
-                    className="border p-2 mr-2 flex-1"
+                    className="w-full p-1 border border-neutral-400 outline-none text-sm"
                 />
 
-                <button>
+                <button className="border border-blue-500 text-white text-sm p-1 cursor-pointer bg-blue-400 hover:bg-blue-500 ">
                     {editingCategory ? 'Atualizar' : 'Cadastrar'}
                 </button>
                 {editingCategory && (
@@ -116,31 +121,31 @@ const Category: React.FC = () => {
                 )}
             </form>
 
-            <table className="min-w-full bg-white border">
+            <table className="min-w-full bg-white border border-neutral-400">
                 <thead>
-                    <tr>
-                        <th className="py-2 px-4 border">ID</th>
-                        <th className="py-2 px-4 border">Nome</th>
-                        <th className="py-2 px-4 border">Ações</th>
+                    <tr className="border border-neutral-400">
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Id</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Nome</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {categories.map(cat => (
-                        <tr key={cat.id}>
-                            <td className="py-2 px-4 border">{cat.id}</td>
-                            <td className="py-2 px-4 border">{cat.name}</td>
-                            <td className="py-2 px-4 border">
+                        <tr key={cat.id} className="border border-neutral-400">
+                            <td className=" px-4 border border-neutral-400 text-sm">{cat.id}</td>
+                            <td className="w-full px-4 border border-neutral-400 text-sm">{cat.name}</td>
+                            <td className="flex py-1 px-2 border border-neutral-200 justify-center">
                                 <button
                                     onClick={() => handleEditCategory(cat)}
-                                    className="bg-green-500 text-white px-2 py-1 mr-2"
+                                    className="flex-1  text-white text-sm px-2 cursor-pointer mr-1"
                                 >
-                                    Editar
+                                    <FiEdit className="text-blue-400"/>
                                 </button>
                                 <button
                                     onClick={() => handleDeleteCategory(cat.id)}
-                                    className="bg-red-500 text-white px-2 py-1"
+                                    className="flex-1  text-white text-sm px-2 cursor-pointer"
                                 >
-                                    Excluir
+                                    <FaRegTrashAlt className="text-red-500"/>
                                 </button>
                             </td>
                         </tr>
