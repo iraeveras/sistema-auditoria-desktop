@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
             <main className="flex-1 p-4">
 
             </main>
-            <footer className="py-1 px-4 bg-gray-800 text-neutral-500">
+            <footer className="py-0.5 px-4 bg-gray-800 text-neutral-500">
                 <label className="text-neutral-400 text-sm">usuário :</label>
                 <span className="text-sm"> {userName}</span>
             </footer>
