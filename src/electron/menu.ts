@@ -1,6 +1,6 @@
 // File: src/electron/menu.ts
 import { app, BrowserWindow, Menu } from 'electron';
-import { createChildWindow } from './main.js';
+import { createChildWindow, ChildWindowOptions } from './main.js';
 
 /**
  * Cria o menu da aplicação. Esse menu será exibido apenas na janela principal,
@@ -21,15 +21,21 @@ export const createMenu = () => {
         {
             label: 'Cadastros',
             submenu: [
-                { label: 'Categoria', click: () => createChildWindow('/cadastros/categoria', 'Cadastro de Categoria', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Forma de Pagamento', click: () => createChildWindow('/cadastros/forma-pagamento', 'Cadastro de Forma de Pagamento', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Motivo de Pausa', click: () => createChildWindow('/cadastros/motivo-pausa', 'Cadastro de Motivo de Pausa', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Loja', click: () => createChildWindow('/cadastros/loja', 'Cadastro de Loja', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Avaliação Operacional', click: () => createChildWindow('/cadastros/avaliacao-operacional', 'Avaliação Operacional', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Questões', click: () => createChildWindow('/cadastros/questoes', 'Cadastro de Questões', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Motivo de Perdas', click: () => createChildWindow('/cadastros/motivo-perdas', 'Cadastro de Motivo de Perdas', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Gênero', click: () => createChildWindow('/cadastros/genero', 'Cadastro de Gênero', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
-                { label: 'Usuário', click: () => createChildWindow('/cadastros/usuario', 'Cadastro de Usuário', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
+                {
+                    label: 'Categoria',
+                    click: () => {
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        createChildWindow('/cadastros/categoria', 'Cadastro de Categoria', options)
+                    }
+                },
+                { label: 'Forma de Pagamento', click: () => createChildWindow('/cadastros/forma-pagamento', 'Cadastro de Forma de Pagamento', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Motivo de Pausa', click: () => createChildWindow('/cadastros/motivo-pausa', 'Cadastro de Motivo de Pausa', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Loja', click: () => createChildWindow('/cadastros/loja', 'Cadastro de Loja', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Avaliação Operacional', click: () => createChildWindow('/cadastros/avaliacao-operacional', 'Avaliação Operacional', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Questões', click: () => createChildWindow('/cadastros/questoes', 'Cadastro de Questões', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Motivo de Perdas', click: () => createChildWindow('/cadastros/motivo-perdas', 'Cadastro de Motivo de Perdas', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Gênero', click: () => createChildWindow('/cadastros/genero', 'Cadastro de Gênero', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
+                { label: 'Usuário', click: () => createChildWindow('/cadastros/usuario', 'Cadastro de Usuário', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
             ],
         },
         {
@@ -41,13 +47,13 @@ export const createMenu = () => {
         {
             label: 'Auditoria',
             submenu: [
-                { label: 'Agendamento de Auditoria', click: () => createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
+                { label: 'Agendamento de Auditoria', click: () => createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
             ],
         },
         {
             label: 'Ajuda',
             submenu: [
-                { label: 'Sobre', click: () => createChildWindow('/sobre', 'Sobre o Sistema', {offset: {x:100, y: 100}, width: 400, height: 400, resizable: false}) },
+                { label: 'Sobre', click: () => createChildWindow('/sobre', 'Sobre o Sistema', { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }) },
             ],
         },
     ];
