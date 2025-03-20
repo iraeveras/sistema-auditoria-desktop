@@ -31,20 +31,20 @@ function createLoginWindow() {
     loginWindow.loadURL('http://localhost:5123/login');
 }
 
-interface ChildWindowOptions {
+export interface ChildWindowOptions {
     offset?: { x: number; y: number; };
     width?: number;
     height?: number;
     resizable?: boolean;
 }
 
-export function createChildWindow( 
+export function createChildWindow(
     route: string,
     title: string,
     options: ChildWindowOptions = {}
 ) {
     // Define valores padrão
-    const { offset = {x: 50, y: 50}, width = 1024, height = 768, resizable = true } = options;
+    const { offset = { x: 50, y: 50 }, width = 1024, height = 768, resizable = true } = options;
 
     const childWindow = new BrowserWindow({
         width,
@@ -128,7 +128,7 @@ function createMainWindow() {
     mainWindow.on('move', () => {
         if (mainWindow) {
             const mainBounds = mainWindow.getBounds();
-            childWindows.forEach(({win, offset}) => {
+            childWindows.forEach(({ win, offset }) => {
                 win.setPosition(mainBounds.x + offset.x, mainBounds.y + offset.y);
             });
         }
@@ -137,7 +137,7 @@ function createMainWindow() {
     mainWindow.on('resize', () => {
         if (mainWindow) {
             const mainBounds = mainWindow.getBounds();
-            childWindows.forEach(({win, offset}) => {
+            childWindows.forEach(({ win, offset }) => {
                 win.setPosition(mainBounds.x + offset.x, mainBounds.y + offset.y);
             })
         }
