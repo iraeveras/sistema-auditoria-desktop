@@ -57,6 +57,7 @@ export function createChildWindow(
             preload: preloadPath,
             contextIsolation: true,
             nodeIntegration: false,
+            devTools: true
         },
     });
 
@@ -106,6 +107,7 @@ export function createChildWindow(
 
     // Carrega a rota na nova janela
     childWindow.loadURL(`http://localhost:5123${route}`);
+    // childWindow.webContents.openDevTools();
 
     return childWindow;
 }
