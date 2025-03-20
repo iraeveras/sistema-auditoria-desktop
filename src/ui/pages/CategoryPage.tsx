@@ -93,7 +93,7 @@ const Category: React.FC = () => {
     return (
         <div className="p-4">
             <Helmet>
-                <title>Categoria</title>
+                <title>Cadastro de Categoria</title>
             </Helmet>
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
