@@ -20,6 +20,11 @@ const Category: React.FC = () => {
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [error, setError] = useState('');
 
+    // Estados para pesquisa e paginação
+    const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5; // Quantos itens por página
+
     const fetchCategories = async () => {
         try {
             const response = await axiosInstance.get(`${API_BASE_URL}/categorias`);
@@ -39,6 +44,21 @@ const Category: React.FC = () => {
     useEffect(() => {
         fetchCategories();
     }, []);
+
+    // Filtrando os usuários com base na pesquisa
+    const filteredCategories = categories.filter((category) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            category.name.toLowerCase().includes(query)
+        );
+    });
+
+    // Cálculo para paginação
+    const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+    const paginatedCategories = filteredCategories.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     const handleCreateCategory = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -90,6 +110,12 @@ const Category: React.FC = () => {
         }
     };
 
+    // Funções para mudar de página
+    const goToPage = (page: number) => {
+        if (page < 1 || page > totalPages) return;
+        setCurrentPage(page);
+    };
+
     return (
         <div className="p-4">
             <Helmet>
@@ -112,36 +138,50 @@ const Category: React.FC = () => {
                         }
                     }}
                     placeholder="Nome da categoria"
-                    className="w-full p-1 border border-neutral-400 outline-none text-sm"
+                    className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                 />
 
-                <button className="border border-blue-500 text-white text-sm p-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
+                <button className="border border-blue-500 text-white text-xs p-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
                     {editingCategory ? 'Atualizar' : 'Cadastrar'}
                 </button>
                 {editingCategory && (
                     <button
                         type="button"
                         onClick={() => setEditingCategory(null)}
-                        className="border border-gray-500 text-white text-sm p-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
+                        className="border border-gray-500 text-white text-xs p-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
                     >
                         Cancelar
                     </button>
                 )}
             </form>
 
+            {/* Campo de pesquisa */}
+            <div className="mb-4 ">
+                <input
+                    type="text"
+                    placeholder="Pesquisar categoria..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setCurrentPage(1); // Reinicia para a página 1 quando a pesquisa muda
+                    }}
+                    className="px-2 py-1 w-full border border-neutral-400 outline-none text-xs"
+                />
+            </div>
+
             <table className="min-w-full bg-white border border-neutral-400">
                 <thead>
                     <tr className="border border-neutral-400">
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">#</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Categoria</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Ações</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">#</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Grupo</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {categories.map(cat => (
+                    {paginatedCategories.map(cat => (
                         <tr key={cat.id} className="border border-neutral-400">
-                            <td className=" px-4 border border-neutral-400 text-sm">{cat.id}</td>
-                            <td className="w-full px-4 border border-neutral-400 text-sm">{cat.name}</td>
+                            <td className=" px-4 border border-neutral-400 text-xs">{cat.id}</td>
+                            <td className="w-full px-4 border border-neutral-400 text-xs">{cat.name}</td>
                             <td className="flex py-1 px-2 border border-neutral-200 justify-center">
                                 <button
                                     onClick={() => handleEditCategory(cat)}
@@ -160,6 +200,27 @@ const Category: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+
+            {/* Controles de paginação */}
+            <div className="flex items-center justify-end mt-2">
+                <button
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-2 py-1 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
+                >
+                    Anterior
+                </button>
+                <span className="text-xs px-2 py-1 text-neutral-500">
+                    Página {currentPage} de {totalPages}
+                </span>
+                <button
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-2 py-1 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
+                >
+                    Próxima
+                </button>
+            </div>
         </div>
     )
 };
