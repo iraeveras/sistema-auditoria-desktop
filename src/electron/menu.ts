@@ -24,7 +24,7 @@ export const createMenu = () => {
                 {
                     label: 'Categoria',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 360, resizable: false }
                         createChildWindow('/cadastros/categoria', 'Cadastro de Categoria', options)
                     }
                 },
@@ -80,7 +80,7 @@ export const createMenu = () => {
                 {
                     label: 'Usuário',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 800, height: 578, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 650, height: 530, resizable: false }
                         createChildWindow('/cadastros/usuario', 'Cadastro de Usuário', options)
                     }
                 },
