@@ -42,7 +42,7 @@ const Login: React.FC = () => {
                     placeholder='Nome de usuário'
                     value={username}
                     onChange={(e) => setUserName(e.target.value)}
-                    className='w-full text-sm border px-2 py-1 mb-4 outline-neutral-500 border-neutral-400'
+                    className='w-full text-xs border px-2 py-1 mb-4 outline-neutral-500 border-neutral-400'
                 />
 
                 <input
@@ -50,12 +50,12 @@ const Login: React.FC = () => {
                     placeholder='Senha'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className='w-full text-sm border px-2 py-1 mb-4 outline-neutral-500 border-neutral-400'
+                    className='w-full text-xs border px-2 py-1 mb-4 outline-neutral-500 border-neutral-400'
                 />
 
                 {erro && <p className="text-red-500 mb-4">{erro}</p>}
 
-                <button type="submit" className="w-full p-2 transition bg-neutral-600 hover:bg-neutral-500 cursor-pointer text-white">
+                <button type="submit" className="w-full p-2 transition bg-neutral-600 hover:bg-neutral-500 cursor-pointer text-xs text-white">
                     Entrar
                 </button>
             </form>
