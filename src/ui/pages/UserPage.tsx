@@ -4,6 +4,8 @@ import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import axiosInstance from '../../services/axiosInstance';
 
+const API_BASE_URL = 'https://back-auditoria.onrender.com';
+
 interface Categoria {
     id: number;
     name: string;
@@ -39,7 +41,7 @@ const UserPage: React.FC = () => {
     // Função para buscar usuários
     const fetchUsers = async () => {
         try {
-            const response = await axiosInstance.get('/usuarios');
+            const response = await axiosInstance.get(`${API_BASE_URL}/usuarios`);
             if (response.data && response.data.users) {
                 setUsers(response.data.users);
             } else if (Array.isArray(response.data)) {
@@ -54,7 +56,7 @@ const UserPage: React.FC = () => {
     // Função para buscar categorias para o select
     const fetchCategories = async () => {
         try {
-            const response = await axiosInstance.get('/categorias');
+            const response = await axiosInstance.get(`${API_BASE_URL}/categorias`);
             let cats = [];
             if (response.data && response.data.cats) {
                 cats = response.data.cats;
@@ -100,8 +102,8 @@ const UserPage: React.FC = () => {
         if (editingUser) {
             // Atualizar usuário
             try {
-                const response = await axiosInstance.put(`/usuarios/${editingUser.id}`, dataToSend);
-                setUsers(users.map(u => (u.id === editingUser.id ? response.data : u)));
+                await axiosInstance.put(`${API_BASE_URL}/usuarios/${editingUser.id}`, dataToSend);
+                await fetchUsers();
                 setEditingUser(null);
                 setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
                 setError('');
@@ -112,8 +114,8 @@ const UserPage: React.FC = () => {
         } else {
             // Criar novo usuário
             try {
-                const response = await axiosInstance.post('/usuarios', dataToSend);
-                setUsers([...users, response.data]);
+                await axiosInstance.post(`${API_BASE_URL}/usuarios`, dataToSend);
+                await fetchUsers();
                 setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
                 setError('');
             } catch (err: any) {
@@ -139,7 +141,7 @@ const UserPage: React.FC = () => {
         if (!confirmed) return;
 
         try {
-            await axiosInstance.delete(`/usuarios/${id}`);
+            await axiosInstance.delete(`${API_BASE_URL}/usuarios/${id}`);
             setUsers(users.filter(u => u.id !== id));
             setError('');
         } catch (err: any) {
@@ -162,54 +164,54 @@ const UserPage: React.FC = () => {
             <form onSubmit={handleSubmit} className="border-b border-b-neutral-400 mb-6 pb-4">
                 <div className='w-full flex gap-2'>
                     <div className="w-96 flex flex-col mb-2">
-                        <label className="text-sm text-neutral-500">Nome de usuário:</label>
+                        <label className="text-xs text-neutral-500">Nome de usuário:</label>
                         <input
                             type="text"
                             value={formData.username}
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-sm"
+                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                             required
                         />
                     </div>
                     <div className="w-full flex flex-col mb-2">
-                        <label className="text-sm text-neutral-500">Nome:</label>
+                        <label className="text-xs text-neutral-500">Nome:</label>
                         <input
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-sm"
+                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                             required
                         />
                     </div>
                 </div>
                 <div className='w-full flex gap-2'>
                     <div className="w-full flex flex-col mb-2">
-                        <label className="text-sm text-neutral-500">Senha:</label>
+                        <label className="text-xs text-neutral-500">Senha:</label>
                         <input
                             type="password"
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-sm"
+                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                             required={!editingUser}
                         />
                     </div>
                     <div className="w-full flex flex-col mb-2">
-                        <label className="text-sm text-neutral-500">Confirmação de Senha:</label>
+                        <label className="text-xs text-neutral-500">Confirmação de Senha:</label>
                         <input
                             type="password"
                             value={formData.passwordConfirmation}
                             onChange={(e) => setFormData({ ...formData, passwordConfirmation: e.target.value })}
-                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-sm"
+                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                             required={!editingUser}
                         />
                     </div>
                 </div>
                 <div className="flex flex-col mb-4">
-                    <label className="text-sm text-neutral-500">Categoria:</label>
+                    <label className="text-xs text-neutral-500">Categoria:</label>
                     <select
                         value={formData.categoriaId}
                         onChange={(e) => setFormData({ ...formData, categoriaId: e.target.value })}
-                        className="w-full px-2 py-1 border border-neutral-400 outline-none text-sm"
+                        className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
                         required
                     >
                         <option value="">Selecione uma categoria</option>
@@ -221,7 +223,7 @@ const UserPage: React.FC = () => {
                     </select>
                 </div>
                 <div className='w-full flex gap-2 items-center justify-end'>
-                    <button type="submit" className="border border-blue-500 text-white text-sm px-4 py-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
+                    <button type="submit" className="border border-blue-500 text-white text-xs px-4 py-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
                         {editingUser ? 'Atualizar' : 'Cadastrar'}
                     </button>
 
@@ -232,7 +234,7 @@ const UserPage: React.FC = () => {
                                 setEditingUser(null);
                                 setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
                             }}
-                            className="border border-gray-500 text-white text-sm px-4 py-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
+                            className="border border-gray-500 text-white text-xs px-4 py-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
                         >
                             Cancelar
                         </button>
@@ -250,27 +252,27 @@ const UserPage: React.FC = () => {
                         setSearchQuery(e.target.value);
                         setCurrentPage(1); // Reinicia para a página 1 quando a pesquisa muda
                     }}
-                    className="border border-neutral-400 outline-none text-sm px-2 py-1 w-full"
+                    className="border border-neutral-400 outline-none text-xs px-2 py-1 w-full"
                 />
             </div>
 
             <table className="min-w-full bg-white border border-neutral-400">
                 <thead>
                     <tr className="border border-neutral-400">
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">ID</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Nome de usuário</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Nome</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Categoria</th>
-                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-sm">Ações</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">#</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Nome de usuário</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Nome</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Categoria</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {paginatedUsers.map((user) => (
                         <tr key={user.id} className="border border-neutral-400">
-                            <td className="px-4 border border-neutral-400 text-sm">{user.id}</td>
-                            <td className="px-4 border border-neutral-400 text-sm">{user.username}</td>
-                            <td className="px-4 border border-neutral-400 text-sm">{user.name}</td>
-                            <td className="px-4 border border-neutral-400 text-sm">
+                            <td className="px-4 border border-neutral-400 text-xs">{user.id}</td>
+                            <td className="px-4 border border-neutral-400 text-xs">{user.username}</td>
+                            <td className="px-4 border border-neutral-400 text-xs">{user.name}</td>
+                            <td className="px-4 border border-neutral-400 text-xs">
                                 {user.categoria ? user.categoria.name : 'N/A'}
                             </td>
                             <td className="flex py-1 px-2 border border-neutral-200 justify-center">
@@ -293,21 +295,21 @@ const UserPage: React.FC = () => {
             </table>
 
             {/* Controles de paginação */}
-            <div className="flex items-center justify-end mt-1">
+            <div className="flex items-center justify-end mt-2">
                 <button
                     onClick={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-3 py-1 text-sm text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
+                    className="px-3 py-1 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
                 >
                     Anterior
                 </button>
-                <span className="px-3 py-1 text-neutral-500">
+                <span className="px-3 py-1 text-xs text-neutral-500">
                     Página {currentPage} de {totalPages}
                 </span>
                 <button
                     onClick={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1 text-sm text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
+                    className="px-3 py-1 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-300 border border-neutral-400  cursor-pointer"
                 >
                     Próxima
                 </button>
