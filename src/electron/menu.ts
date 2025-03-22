@@ -38,7 +38,7 @@ export const createMenu = () => {
                 {
                     label: 'Motivo de Pausa',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 450, height: 400, resizable: false }
                         createChildWindow('/cadastros/motivo-pausa', 'Cadastro de Motivo de Pausa', options)
                     }
                 },
