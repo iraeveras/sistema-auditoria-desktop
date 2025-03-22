@@ -15,6 +15,7 @@ interface User {
     id: number;
     username: string;
     name: string;
+    situacao: boolean;
     categoria?: Categoria;
     createdAt: string;
     updatedAt: string;
@@ -26,6 +27,7 @@ const UserPage: React.FC = () => {
     const [formData, setFormData] = useState({
         username: '',
         name: '',
+        situacao: true,
         password: '',
         passwordConfirmation: '',
         categoriaId: '',
@@ -105,7 +107,7 @@ const UserPage: React.FC = () => {
                 await axiosInstance.put(`${API_BASE_URL}/usuarios/${editingUser.id}`, dataToSend);
                 await fetchUsers();
                 setEditingUser(null);
-                setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
+                setFormData({ username: '', name: '', situacao: true, password: '', passwordConfirmation: '', categoriaId: '' });
                 setError('');
             } catch (err: any) {
                 console.error('Erro ao atualizar usuário', err);
@@ -116,7 +118,7 @@ const UserPage: React.FC = () => {
             try {
                 await axiosInstance.post(`${API_BASE_URL}/usuarios`, dataToSend);
                 await fetchUsers();
-                setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
+                setFormData({ username: '', name: '', situacao: true, password: '', passwordConfirmation: '', categoriaId: '' });
                 setError('');
             } catch (err: any) {
                 console.error('Erro ao criar usuário', err);
@@ -130,6 +132,7 @@ const UserPage: React.FC = () => {
         setFormData({
             username: user.username,
             name: user.name,
+            situacao: user.situacao,
             password: '', // não preenche senha ao editar
             passwordConfirmation: '',
             categoriaId: user.categoria ? String(user.categoria.id) : '',
@@ -206,21 +209,35 @@ const UserPage: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col mb-4">
-                    <label className="text-xs text-neutral-500">Categoria:</label>
-                    <select
-                        value={formData.categoriaId}
-                        onChange={(e) => setFormData({ ...formData, categoriaId: e.target.value })}
-                        className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
-                        required
-                    >
-                        <option value="">Selecione uma categoria</option>
-                        {categories.map((cat) => (
-                            <option key={cat.id} value={cat.id}>
-                                {cat.name}
-                            </option>
-                        ))}
-                    </select>
+                <div className="w-full flex gap-2">
+                    <div className="w-full flex flex-col mb-4">
+                        <label className="text-xs text-neutral-500">Categoria:</label>
+                        <select
+                            value={formData.categoriaId}
+                            onChange={(e) => setFormData({ ...formData, categoriaId: e.target.value })}
+                            className="w-full px-2 py-1 border border-neutral-400 outline-none text-xs"
+                            required
+                        >
+                            <option value="">Selecione uma categoria</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="flex items-center ">
+                        <label className="text-sm text-neutral-600 mr-2">Ativo?</label>
+                        <input
+                            type="checkbox"
+                            checked={formData.situacao}
+                            onChange={(e) =>
+                            setFormData({ ...formData, situacao: e.target.checked })
+                            }
+                            className="h-4 w-4"
+                        />
+                    </div>
                 </div>
                 <div className='w-full flex gap-2 items-center justify-end'>
                     <button type="submit" className="border border-blue-500 text-white text-xs px-4 py-1 cursor-pointer bg-blue-400 hover:bg-blue-500">
@@ -232,7 +249,7 @@ const UserPage: React.FC = () => {
                             type="button"
                             onClick={() => {
                                 setEditingUser(null);
-                                setFormData({ username: '', name: '', password: '', passwordConfirmation: '', categoriaId: '' });
+                                setFormData({ username: '', name: '', situacao: true, password: '', passwordConfirmation: '', categoriaId: '' });
                             }}
                             className="border border-gray-500 text-white text-xs px-4 py-1 cursor-pointer bg-gray-400 hover:bg-gray-500"
                         >
@@ -263,6 +280,7 @@ const UserPage: React.FC = () => {
                         <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Nome de usuário</th>
                         <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Nome</th>
                         <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Categoria</th>
+                        <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Situação</th>
                         <th className="py-1 bg-neutral-300 px-2 border border-neutral-400 text-xs">Ações</th>
                     </tr>
                 </thead>
@@ -274,6 +292,9 @@ const UserPage: React.FC = () => {
                             <td className="px-4 border border-neutral-400 text-xs">{user.name}</td>
                             <td className="px-4 border border-neutral-400 text-xs">
                                 {user.categoria ? user.categoria.name : 'N/A'}
+                            </td>
+                            <td className={`px-4 border border-neutral-400 text-xs font-medium ${user.situacao ? "text-green-600" : "text-red-400"}`}>
+                                {user.situacao ? 'Ativo' : 'Inativo'}
                             </td>
                             <td className="flex py-1 px-2 border border-neutral-200 justify-center">
                                 <button
