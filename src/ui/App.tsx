@@ -7,6 +7,7 @@ import UserPage from "./pages/UserPage";
 import Category from "./pages/CategoryPage";
 import GenderPage from "./pages/GenderPage";
 import PaymentMethodPage from "./pages/PaymentMethodPage";
+import PausePage from "./pages/PausePage";
 
 const App: React.FC = () => {
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Route path="/cadastros/categoria" element={<Category />} />
         <Route path="cadastros/genero" element={<GenderPage />} />
         <Route path="cadastros/forma-pagamento" element={<PaymentMethodPage />} />
+        <Route path="cadastros/motivo-pausa" element={<PausePage />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>
