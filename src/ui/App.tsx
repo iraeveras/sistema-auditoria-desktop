@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import UserPage from "./pages/UserPage";
 import Category from "./pages/CategoryPage";
+import GenderPage from "./pages/GenderPage";
+import PaymentMethodPage from "./pages/PaymentMethodPage";
+
 const App: React.FC = () => {
 
   return (
@@ -14,6 +17,8 @@ const App: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cadastros/usuario" element={<UserPage />} />
         <Route path="/cadastros/categoria" element={<Category />} />
+        <Route path="cadastros/genero" element={<GenderPage />} />
+        <Route path="cadastros/forma-pagamento" element={<PaymentMethodPage />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>
