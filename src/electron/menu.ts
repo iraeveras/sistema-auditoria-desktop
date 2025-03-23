@@ -66,7 +66,7 @@ export const createMenu = () => {
                 {
                     label: 'Motivo de Perdas',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 900, height: 550, resizable: false }
                         createChildWindow('/cadastros/motivo-perdas', 'Cadastro de Motivo de Perdas', options)
                     }
                 },
