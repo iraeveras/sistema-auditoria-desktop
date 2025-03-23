@@ -11,6 +11,8 @@ import PausePage from "./pages/PausePage";
 import LossPage from "./pages/LossPage";
 import OperationalAssessmentPage from "./pages/OperationalAssessmentPage";
 import QuestionsPage from "./pages/QuestionsPage";
+import StorePage from "./pages/StorePage";
+import AuditPage from "./pages/AuditPage";
 
 const App: React.FC = () => {
 
@@ -27,6 +29,8 @@ const App: React.FC = () => {
         <Route path="cadastros/motivo-perdas" element={<LossPage />} />
         <Route path="cadastros/avaliacao-operacional" element={<OperationalAssessmentPage />} />
         <Route path="cadastros/questoes" element={<QuestionsPage />} />
+        <Route path="cadastros/loja" element={<StorePage />} />
+        <Route path="/auditoria/agendamento" element={<AuditPage />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>
