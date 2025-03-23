@@ -59,7 +59,7 @@ export const createMenu = () => {
                 {
                     label: 'Questões',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 600, height: 450, resizable: false }
                         createChildWindow('/cadastros/questoes', 'Cadastro de Questões', options)
                     }
                 },
