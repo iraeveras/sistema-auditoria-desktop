@@ -12,6 +12,8 @@ dist
 dist-react
 dist-electron
 *.local
+.env.development
+.env.production
 
 # Editor directories and files
 .vscode/*
