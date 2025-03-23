@@ -1,6 +1,5 @@
 // File: src/ui/pages/Login.tsx
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
 const API_BASE_URL = 'https://back-auditoria.onrender.com';
@@ -31,9 +30,6 @@ const Login: React.FC = () => {
     }
     return (
         <div className="min-h-screen flex items-center justify-center bg-transparent">
-            <Helmet>
-                <title>Login</title>
-            </Helmet>
             <form onSubmit={handleLogin} className="bg-transparent p-8 rounded w-full max-w-sm">
                 <h2 className="text-2xl font-bold mb-6 text-center text-neutral-600">Login</h2>
                 <h3 className='text-center text-xs text-neutral-400 mb-3'>Insira seu nome de usuário e senha para acessar o sistema de Auditoria</h3>
