@@ -76,6 +76,13 @@ const UserPage: React.FC = () => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(''), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
+
     // Filtrando os usuários com base na pesquisa
     const filteredUsers = users.filter((user) => {
         const query = searchQuery.toLowerCase();
@@ -111,7 +118,10 @@ const UserPage: React.FC = () => {
                 setError('');
             } catch (err: any) {
                 console.error('Erro ao atualizar usuário', err);
-                setError(err.response?.data?.error || 'Erro ao atualizar usuário');
+                setTimeout(() => {
+                    setError(err.response?.data?.error || 'Erro ao atualizar usuário');
+                }, 5000)
+                
             }
         } else {
             // Criar novo usuário
@@ -209,7 +219,7 @@ const UserPage: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex gap-1">
                     <div className="w-full flex flex-col mb-4">
                         <label className="text-xs text-neutral-500">Categoria:</label>
                         <select
