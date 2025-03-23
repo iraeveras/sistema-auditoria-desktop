@@ -31,8 +31,8 @@ const TotalSalesCard: React.FC = () => {
 
     return (
         <div className="bg-white shadow rounded p-4">
-            <h2 className="text-lg font-bold mb-2">Total Acumulado</h2>
-            <p className="text-2xl">{totalSales.toFixed(2)}</p>
+            <h2 className="text-xl font-bold mb-2">Total Acumulado</h2>
+            <p className="text-lg">{totalSales.toFixed(2)}</p>
         </div>
     );
 };
