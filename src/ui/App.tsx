@@ -10,6 +10,7 @@ import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PausePage from "./pages/PausePage";
 import LossPage from "./pages/LossPage";
 import OperationalAssessmentPage from "./pages/OperationalAssessmentPage";
+import QuestionsPage from "./pages/QuestionsPage";
 
 const App: React.FC = () => {
 
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path="cadastros/motivo-pausa" element={<PausePage />} />
         <Route path="cadastros/motivo-perdas" element={<LossPage />} />
         <Route path="cadastros/avaliacao-operacional" element={<OperationalAssessmentPage />} />
+        <Route path="cadastros/questoes" element={<QuestionsPage />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>
