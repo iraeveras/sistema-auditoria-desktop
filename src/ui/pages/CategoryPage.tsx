@@ -1,6 +1,5 @@
 // File: src/ui/pages/CategoryPage.tsx
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet';
 import axiosInstance from "../../services/axiosInstance";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -118,10 +117,6 @@ const Category: React.FC = () => {
 
     return (
         <div className="p-4">
-            <Helmet>
-                <title>Cadastro de Categoria</title>
-            </Helmet>
-
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form
                 onSubmit={editingCategory ? handleUpdateCategory : handleCreateCategory}
