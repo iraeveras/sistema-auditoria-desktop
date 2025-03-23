@@ -52,7 +52,7 @@ export const createMenu = () => {
                 {
                     label: 'Avaliação Operacional',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 500, height: 400, resizable: false }
                         createChildWindow('/cadastros/avaliacao-operacional', 'Avaliação Operacional', options)
                     }
                 },
