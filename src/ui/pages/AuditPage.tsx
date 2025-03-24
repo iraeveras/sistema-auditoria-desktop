@@ -58,24 +58,23 @@ const AuditPage: React.FC = () => {
         async function getLoggedUser() {
             try {
                 const user = await window.electronAPI.getUser();
-                console.log('Usuário logado:', user);
                 if (user && user.token) {
                     // Importa dinamicamente o módulo jwt-decode e faz o cast para permitir indexação
                     const jwtModule = (await import('jwt-decode')) as { [key: string]: any };
-                    console.log('Chaves do jwtModule:', Object.keys(jwtModule));
+
                     // Acessa explicitamente a função jwtDecode exportada pelo módulo
                     const jwtDecodeFn = jwtModule.jwtDecode;
                     if (typeof jwtDecodeFn !== 'function') {
                         throw new Error('jwtDecode não é uma função');
                     }
+
                     // Define o tipo da função para que possamos usar argumentos de tipo
                     const typedJwtDecodeFn = jwtDecodeFn as <T>(token: string) => T;
                     const decoded = typedJwtDecodeFn<{ id: number }>(user.token);
-                    console.log('Decoded JWT:', decoded);
+
                     // Utiliza Object.assign para garantir que o id seja incluído
                     const updatedUser = Object.assign({}, user, { id: decoded.id });
                     setLoggedUser(updatedUser);
-                    console.log('Usuário atualizado:', updatedUser);
                 }
             } catch (err) {
                 console.error('Erro ao importar ou utilizar jwt-decode:', err);
@@ -170,7 +169,7 @@ const AuditPage: React.FC = () => {
     // Filtra auditorias pelo nome da loja
     const filteredAuditorias = auditorias.filter((auditoria) => {
         const query = searchQuery.toLowerCase();
-        return auditoria.loja?.name.toLowerCase().includes(query) || false;
+        return auditoria.loja?.name.toLowerCase().includes(query) || auditoria.usuario?.name.toLowerCase().includes(query) || auditoria.data?.toLowerCase().includes(query) || false;
     });
 
     const totalPages = Math.ceil(filteredAuditorias.length / itemsPerPage);
@@ -255,7 +254,7 @@ const AuditPage: React.FC = () => {
                 </p>
             )}
             <form onSubmit={handleSubmit} className="border-b border-neutral-400 mb-4 pb-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     {/* Select para Loja */}
                     <div className="flex flex-col">
                         <label className="text-xs text-neutral-600">Loja:</label>
@@ -290,6 +289,8 @@ const AuditPage: React.FC = () => {
                             ))}
                         </select>
                     </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Campo de data */}
                     <div className="flex flex-col">
                         <label className="text-xs text-neutral-600">Data:</label>
@@ -350,7 +351,7 @@ const AuditPage: React.FC = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Pesquisar auditorias..."
+                    placeholder="Pesquisar auditorias por Loja ou Auditor ou data ( aaaa-mm-dd )..."
                     value={searchQuery}
                     onChange={(e) => {
                         setSearchQuery(e.target.value);
@@ -380,7 +381,7 @@ const AuditPage: React.FC = () => {
                             <td className="px-4 border border-neutral-400 text-xs">{auditoria.loja ? auditoria.loja.name : 'N/A'}</td>
                             <td className="px-4 border border-neutral-400 text-xs">{auditoria.usuario ? auditoria.usuario.name : 'N/A'}</td>
                             <td className="px-4 border border-neutral-400 text-xs">{auditoria.criador ? auditoria.criador.name : 'N/A'}</td>
-                            <td className="px-4 border border-neutral-400 text-xs">{new Date(auditoria.data).toLocaleDateString()}</td>
+                            <td className="px-4 border border-neutral-400 text-xs">{new Date(auditoria.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</td>
                             <td className="px-4 border border-neutral-400 text-xs">{auditoria.horaInicial}</td>
                             <td className="px-4 border border-neutral-400 text-xs">{auditoria.horaFinal}</td>
                             <td className="flex py-1 px-2 border border-neutral-200 justify-center">
