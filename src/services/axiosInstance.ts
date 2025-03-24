@@ -1,4 +1,4 @@
-// File: src/ui/services/axiosInstance.ts
+// File: src/services/axiosInstance.ts
 import axios from "axios";
 
 const API_BASE_URL = 'https://back-auditoria.onrender.com';
