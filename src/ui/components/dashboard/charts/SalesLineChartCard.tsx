@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axiosInstance from '../../../../services/axiosInstance';
 
 interface Sale {
@@ -56,13 +56,12 @@ const SalesLineChartCard: React.FC = () => {
     }, []);
 
     return (
-        <div className="bg-white shadow rounded p-4">
-            <h2 className="text-lg font-bold mb-2">Vendas ao Longo do Tempo</h2>
+        <div className="bg-transparent border border-neutral-400 shadow rounded p-4">
+            <h2 className="text-sm font-bold mb-2">Vendas ao Longo do Tempo</h2>
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis className='text-xs' dataKey="date" />
-                    <YAxis className='text-xs' />
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="total" stroke="#82ca9d" />

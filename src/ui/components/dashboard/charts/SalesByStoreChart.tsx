@@ -1,6 +1,6 @@
 // File: src/ui/components/SalesByStoreChart.tsx
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axiosInstance from '../../../../services/axiosInstance';
 
 interface Sale {
@@ -46,16 +46,15 @@ const SalesByStoreChart: React.FC = () => {
     }, []);
 
     return (
-        <div className="bg-white shadow rounded p-4">
-            <h2 className="text-lg font-bold mb-2">Vendas por Loja</h2>
+        <div className="bg-transparent border border-neutral-400 shadow rounded p-4">
+            <h2 className="text-sm font-bold mb-2">Vendas por Loja</h2>
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                    <XAxis className='text-xs' dataKey="name" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="total" barSize={20} fill="#8884d8" />
+                    <Bar dataKey="total" barSize={10} fill="#8884d8" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
