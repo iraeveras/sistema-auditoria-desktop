@@ -9,6 +9,7 @@
         "module": "NodeNext",
         "moduleResolution": "nodenext",
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         // define where to put generated JS
         "outDir": "../../dist-electron",
         // ignore errors from dependencies
