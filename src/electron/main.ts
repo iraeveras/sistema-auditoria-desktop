@@ -26,9 +26,11 @@ function createLoginWindow() {
         webPreferences: {
             preload: preloadPath,
             contextIsolation: true,
+            devTools: true,
         },
     });
     loginWindow.loadURL('http://localhost:5123/login');
+    // loginWindow.webContents.openDevTools();
 }
 
 export interface ChildWindowOptions {
