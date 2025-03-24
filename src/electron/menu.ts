@@ -45,7 +45,7 @@ export const createMenu = () => {
                 {
                     label: 'Loja',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 700, height: 620, resizable: false }
                         createChildWindow('/cadastros/loja', 'Cadastro de Loja', options)
                     }
                 },
@@ -104,7 +104,7 @@ export const createMenu = () => {
                 {
                     label: 'Agendamento de Auditoria',
                     click: () => {
-                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 400, height: 400, resizable: false }
+                        const options: ChildWindowOptions = { offset: { x: 100, y: 100 }, width: 900, height: 600, resizable: true }
                         createChildWindow('/auditoria/agendamento', 'Agendamento de Auditoria', options)
                     }
                 },
