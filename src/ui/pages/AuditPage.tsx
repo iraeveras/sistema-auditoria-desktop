@@ -51,7 +51,7 @@ const AuditPage: React.FC = () => {
     const [error, setError] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
 
     // Busca o usuário logado via IPC e decodifica o token para extrair o id
     useEffect(() => {
