@@ -16,14 +16,30 @@ O Sistema de auditoria de Lojas está sendo construído para funcionar em Deskto
 │   │   ├── tsconfig.preload.json
 │   │   └── util.ts     
 │   ├── services/
+│   │   ├── axiosInstance.ts
 │   │   └── authService.ts
 │   ├── types/
+│   │   ├── jwt.decode.d.ts
 │   │   └── global.d.ts
 │   └── ui/          
 │       ├── assets/
+│       ├── components/
+│       │   └── dashboard/
+│       │       ├── cards/
+│       │       └── charts/
 │       ├── pages/
-│       │   ├── Dashboard.tsx
-│       │   └── Login.tsx
+│       │   ├── AuditPage.tsx
+│       │   ├── CategoryPage.tsx
+│       │   ├── GenderPage.tsx
+│       │   ├── Login.tsx
+│       │   ├── LossPage.tsx
+│       │   ├── Main.tsx
+│       │   ├── OperationalAssessmentPage.tsx
+│       │   ├── PausePage.tsx
+│       │   ├── PaymentMethodPage.tsx
+│       │   ├── QuestionsPage.tsx
+│       │   ├── StorePage.tsx
+│       │   └── UserPage.tsx
 │       ├── App.tsx       
 │       ├── index.css       
 │       ├── main.tsx       
