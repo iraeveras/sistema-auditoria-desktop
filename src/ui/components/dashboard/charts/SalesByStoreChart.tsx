@@ -1,64 +1,37 @@
 // File: src/ui/components/SalesByStoreChart.tsx
-import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import axiosInstance from '../../../../services/axiosInstance';
+import { Venda } from "../../../pages/DashboardPage";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
-interface Sale {
-    id: number;
-    valor: string;
-    createdAt: string;
-    auditoria?: {
-        loja?: { id: number; name: string };
-    };
+interface Props {
+    vendas: Venda[];
 }
 
-interface SalesResponse {
-    vendas: Sale[];
-}
+export function SalesByStoreChart({ vendas }: Props) {
+    const dadosPorLoja = vendas.reduce((acc, venda) => {
+    const loja = venda.auditoria.loja.name.trim();
+    const valor = parseFloat(venda.valor);
 
-interface ChartDataItem {
-    name: string;
-    total: number;
-}
-
-const SalesByStoreChart: React.FC = () => {
-    const [chartData, setChartData] = useState<ChartDataItem[]>([]);
-
-    useEffect(() => {
-        const fetchSales = async () => {
-            try {
-                const response = await axiosInstance.get<SalesResponse>('/vendas');
-                const sales = response.data.vendas;
-                const data = sales.reduce((acc: Record<string, number>, sale: Sale) => {
-                    const lojaName = sale.auditoria?.loja?.name || 'Desconhecida';
-                    const valor = parseFloat(sale.valor);
-                    acc[lojaName] = (acc[lojaName] || 0) + valor;
-                    return acc;
-                }, {});
-                const formattedData = Object.entries(data).map(([name, total]) => ({ name, total }));
-                setChartData(formattedData);
-            } catch (error) {
-                console.error('Erro ao buscar vendas por loja:', error);
-            }
-        };
-
-        fetchSales();
-    }, []);
+    const lojaExistente = acc.find((item) => item.loja === loja);
+    if (lojaExistente) {
+        lojaExistente.total += valor;
+        } else {
+        acc.push({ loja, total: valor });
+        }
+        return acc;
+    }, [] as { loja: string; total: number }[]);
 
     return (
-        <div className="bg-transparent border border-neutral-400 shadow rounded p-4">
-            <h2 className="text-sm font-bold mb-2">Vendas por Loja</h2>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
+        <div className="bg-white rounded-2xl shadow-md p-4 h-[400px]">
+            <h2 className="text-lg font-semibold mb-4">Vendas por Loja</h2>
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={dadosPorLoja} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis className='text-xs' dataKey="name" />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="total" barSize={10} fill="#8884d8" />
+                    <XAxis type="number" className="text-sm" />
+                    <YAxis dataKey="loja" type="category" className="text-sm" />
+                    <Tooltip formatter={(value: number) => `R$ ${value.toFixed(2)}`} />
+                    <Bar dataKey="total" barSize={20} fill="#4F46E5" radius={[0, 5, 5, 0]} />
                 </BarChart>
             </ResponsiveContainer>
         </div>
     );
-};
-
-export default SalesByStoreChart;
+}
