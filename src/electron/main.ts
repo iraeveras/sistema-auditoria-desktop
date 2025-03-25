@@ -127,7 +127,7 @@ function createMainWindow() {
     });
 
     mainWindow.maximize();
-    mainWindow.loadURL('http://localhost:5123/dashboard');
+    mainWindow.loadURL('http://localhost:5123/main');
 
     mainWindow.on('move', () => {
         if (mainWindow) {

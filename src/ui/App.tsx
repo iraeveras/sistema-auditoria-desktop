@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Main from "./pages/Main";
 import UserPage from "./pages/UserPage";
 import Category from "./pages/CategoryPage";
 import GenderPage from "./pages/GenderPage";
@@ -20,7 +20,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/cadastros/usuario" element={<UserPage />} />
         <Route path="/cadastros/categoria" element={<Category />} />
         <Route path="cadastros/genero" element={<GenderPage />} />
