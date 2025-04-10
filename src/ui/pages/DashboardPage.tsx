@@ -23,7 +23,7 @@ export interface Venda {
     auditoria: {
         data: string;
         loja: {
-        name: string;
+            name: string;
         };
     };
     formadepagamento: {
@@ -32,20 +32,20 @@ export interface Venda {
     sexo: {
         name: string;
     };
-    }
+}
 
-    export function DashboardPage() {
+export function DashboardPage() {
     const [vendas, setVendas] = useState<Venda[]>([]);
 
     useEffect(() => {
         axiosInstance
-        .get(`${API_BASE_URL}/vendas`)
-        .then((response) => {
-            setVendas(response.data.vendas);
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar dados de vendas:", error);
-        });
+            .get(`${API_BASE_URL}/vendas`)
+            .then((response) => {
+                setVendas(response.data.vendas);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar dados de vendas:", error);
+            });
     }, []);
 
     return (
@@ -54,10 +54,10 @@ export interface Venda {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                 <TotalSalesCard vendas={vendas} />
-                <DailySalesCard vendas={vendas} />
-                <WeeklySalesCard vendas={vendas} />
-                <MonthlySalesCard vendas={vendas} />
-                <AnnualSalesCard vendas={vendas} />
+                {/* <DailySalesCard vendas={vendas} /> */}
+                {/* <WeeklySalesCard vendas={vendas} /> */}
+                {/* <MonthlySalesCard vendas={vendas} /> */}
+                {/* <AnnualSalesCard vendas={vendas} /> */}
 
             </div>
 
